@@ -19,14 +19,14 @@ mv output.txt "$1"
 
 python get_video_handles.py "$1" > links
 i=0
-cat links | while read CMD; do youtube-dl -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$CMD";  done
+cat links | while read link; do youtube-dl -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$link";  done
 for j in *.mkv *.webm *.mp4; do
 	ffmpeg -i "$j" "$2/$j.mp3";
 	i=$((i+1))
 done
 
 echo "$i mp3 added to $2 [!!]"
-exit 0
+
 rm links
 rm *.webm
 rm *.mp4
