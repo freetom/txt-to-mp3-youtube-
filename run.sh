@@ -1,3 +1,14 @@
+#check deps
+if [ ! -x "$(command -v python)" ];
+then echo "Please install python"; exit 1
+fi
+if [ ! -x "$(command -v youtube-dl)" ];
+then echo "Please install youtube-dl"; exit 1
+fi
+if [ ! -x "$(command -v ffmpeg)" ];
+then echo "Please install ffmpeg"; exit 1
+fi
+
 #go go gooo
 
 if [[ "$#" -ne 2 ]]
@@ -21,8 +32,7 @@ python get_video_handles.py "$1" > links
 i=0
 cat links | while read link; do youtube-dl -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$link";  done
 for j in *.mkv *.webm *.mp4; do
-	ffmpeg -i "$j" "$2/$j.mp3";
-	i=$((i+1))
+	ffmpeg -i "$j" "$2/$j.mp3" && i=$((i+1));
 done
 
 echo "$i mp3 added to $2 [!!]"
