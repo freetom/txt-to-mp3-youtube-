@@ -17,9 +17,7 @@ with open(sys.argv[1]) as f:
 	x=(line).replace(' ','+')
 	y=os.popen('wget -qO- https://youtube.com/results?'+urllib.urlencode({'search_query':x})).read()
 	#sys.stderr.write(y+"\n")
-	z=y.split("<div id=\"results\">")[1].split("data-context-item-id=\"")[1].split('"')[0]
+	z=y.split('"videoId":"')[1].split('"')[0]
 	print 'https://youtube.com/watch?v='+z
 	sys.stderr.write(line.strip('\n')+' -> '+z+'\n')
 sys.stderr.write('done\n')
-
-

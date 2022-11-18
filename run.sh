@@ -1,6 +1,6 @@
 #check deps
-if [ ! -x "$(command -v python)" ];
-then echo "Please install python"; exit 1
+if [ ! -x "$(command -v python2)" ];
+then echo "Please install python2"; exit 1
 fi
 if [ ! -x "$(command -v youtube-dl)" ];
 then echo "Please install youtube-dl"; exit 1
@@ -28,14 +28,11 @@ sed '/^$/d' "$1" > output.txt
 rm "$1"
 mv output.txt "$1"
 
-python get_video_handles.py "$1" > links
+python2 get_video_handles.py "$1" > links
 i=0
-cat links | while read link; do youtube-dl -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$link";  done
-for j in *.mkv *.webm *.mp4; do
-	ffmpeg -i "$j" "$2/$j.mp3" && i=$((i+1));
-done
+cat links | while read link; do youtube-dl -f 'bestaudio' -x --audio-format "best" -o "$2/%(title)s-%(id)s.%(ext)s" "$link";  done
 
-echo "$i mp3 added to $2 [!!]"
+echo "$i audio-files/songs added to $2 [!!]"
 
 rm links
 rm *.webm
