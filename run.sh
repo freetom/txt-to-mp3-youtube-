@@ -24,9 +24,7 @@ then echo "Output directory invalid"; exit 1
 fi
 
 echo "Remove empty lines from input..."
-sed '/^$/d' "$1" > output.txt
-rm "$1"
-mv output.txt "$1"
+sed -i '/^$/d' "$1"
 
 python3 get_video_handles.py "$1" > links
 i=0
