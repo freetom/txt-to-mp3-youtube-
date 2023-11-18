@@ -1,9 +1,9 @@
 #check deps
-if [ ! -x "$(command -v python2)" ];
-then echo "Please install python2"; exit 1
+if [ ! -x "$(command -v python3)" ];
+then echo "Please install python3"; exit 1
 fi
-if [ ! -x "$(command -v youtube-dl)" ];
-then echo "Please install youtube-dl"; exit 1
+if [ ! -x "$(command -v yt-dlp)" ];
+then echo "Please install yt-dlp"; exit 1
 fi
 if [ ! -x "$(command -v ffmpeg)" ];
 then echo "Please install ffmpeg"; exit 1
@@ -28,15 +28,15 @@ sed '/^$/d' "$1" > output.txt
 rm "$1"
 mv output.txt "$1"
 
-python2 get_video_handles.py "$1" > links
+python3 get_video_handles.py "$1" > links
 i=0
-cat links | while read link; do youtube-dl -f 'bestaudio' -x --audio-format "best" -o "$2/%(title)s-%(id)s.%(ext)s" "$link";  done
+cat links | while read link; do yt-dlp -x --audio-format mp3 --audio-quality 0  -o "$2/%(title)s.%(ext)s" "$link";  done
 
 echo "$i audio-files/songs added to $2 [!!]"
 
 rm links
-rm *.webm
-rm *.mp4
-rm *.mkv
+#rm *.webm
+#rm *.mp4
+#rm *.mkv
 
 # ...
